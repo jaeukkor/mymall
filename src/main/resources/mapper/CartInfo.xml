@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.mall.goods.dao.BasketDao">
+	<resultMap type="com.mall.table.vo.CartInfoVO" id="CartInfoMap">
+		<result property="userId" column="user_id" />
+		<result property="goodsCd" column="goods_cd" />
+		<result property="buyQty"  column="buy_qty" />
+		<result property="regDt"  column="reg_dt" />
+	</resultMap>
+	<resultMap type="com.mall.table.vo.GoodsInfoVO" id="GoodsInfoMap">
+		<result property="goodsCd" column="goods_cd" />
+		<result property="ctCd" column="ct_cd" />
+		<result property="goodsName"  column="goods_name" />
+		<result property="normalPrice"  column="normal_price" />
+		<result property="sellPrice"  column="sell_price" />
+		<result property="content"  column="content" />
+		
+		
+		<result property="imgSeq"  column="img_seq" />
+		<result property="imgUrl"  column="img_url" />
+		<result property="fileName"  column="file_name" />
+		<result property="regDt"  column="reg_dt" />
+		<result property="delYn"  column="del_yn" />
+		
+		<result property="buyQty"  column="buy_qty" />
+		<result property="userId"  column="user_id" />
+		<result property="thumnailUrl"  column="thumnail_url" />
+	</resultMap>
+	
+	<select id="selectCartList" resultMap="GoodsInfoMap">
+			 SELECT
+                B.USER_ID,
+                A.GOODS_CD,
+				A.THUMNAIL_URL,
+				A.GOODS_NAME,
+				B.BUY_QTY,
+				A.SELL_PRICE
+			FROM 
+				TB_GOODS_INFO A, TB_CART_INFO B
+			WHERE
+				A.GOODS_CD = B.GOODS_CD
+			AND
+				B.USER_ID = #{userId}
+				
+	</select>
+	<update id="updateCart">
+		 UPDATE 
+                TB_CART_INFO
+            SET
+                BUY_QTY = #{buyQty}
+            WHERE
+                GOODS_CD = #{goodsCd}
+            AND 
+            	USER_ID  = #{userId}
+	</update>
+	<delete id="deleteCart">
+		DELETE
+			TB_CART_INFO
+		WHERE
+                GOODS_CD = #{goodsCd}
+            AND 
+            	USER_ID  = #{userId}
+	</delete>
+	</mapper>

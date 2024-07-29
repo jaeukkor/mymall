@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.mall.main.dao.MainDao">
+
+	<resultMap type="com.mall.table.vo.MainGoodsVO" id="MainGoodsMap">
+		
+		<result property="goodsCd" column="goods_cd" />
+		<result property="ctCd" column="ct_cd" />
+		<result property="goodsName"  column="goods_name" />
+		<result property="normalPrice"  column="normal_price" />
+		<result property="sellPrice" column="sell_price" />
+		<result property= "ivQty" column="iv_qty" />
+		<result property= "goodsStatus" column="goods_status" />
+		<result property= "supplierCd" column="supplier_cd" />
+		<result property= "thumnailUrl" column="thumnail_url" />
+		<result property= "content" column= "content"/>
+		<result property="ctName" column="ct_name" />
+		<result property="ctLevel" column="ct_level" />
+		<result property="upCtCd" column="up_ct_cd" />
+		<result property="regDt" column="reg_dt" />
+		
+		
+		
+		</resultMap>
+
+	<select id="selectHotItemList" resultMap = "MainGoodsMap">
+		SELECT 
+			GOODS_CD,
+			GOODS_NAME,
+			SELL_PRICE,
+			THUMNAIL_URL
+		FROM TB_GOODS_INFO
+		WHERE
+		    REG_DT <![CDATA[ >= ]]> TRUNC(SYSDATE) - 7
+		AND 
+		   REG_DT <![CDATA[ < ]]> TRUNC(SYSDATE) + 1
+		AND 
+		   ROWNUM <![CDATA[ <= ]]> 12
+		
+		
+	</select>
+	
+	<select id="selectCategory" resultMap="MainGoodsMap">
+			SELECT 
+				CT_CD,
+				CT_NAME,
+				CT_LEVEL
+			FROM TB_GOODS_CATEGORY
+			WHERE CT_LEVEL = '1'
+	</select>
+	
+	<select id="selectInCategory" resultMap="MainGoodsMap">
+		SELECT 
+			GOODS_CD,
+			SUBSTR(CT_CD,1,2) CT_CD,
+			GOODS_NAME,
+			NORMAL_PRICE,
+			SELL_PRICE,
+			THUMNAIL_URL
+		FROM 
+			TB_GOODS_INFO
+		
+	</select>
+
+</mapper>

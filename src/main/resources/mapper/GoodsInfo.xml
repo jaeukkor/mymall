@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.mall.goods.dao.GoodsDao">
+	
+	<resultMap type="com.mall.table.vo.GoodsInfoVO" id="GoodsInfoMap">
+		<result property="goodsCd" column="goods_cd" />
+		<result property="ctCd" column="ct_cd" />
+		<result property="goodsName"  column="goods_name" />
+		<result property="normalPrice"  column="normal_price" />
+		<result property="sellPrice"  column="sell_price" />
+		<result property="content"  column="content" />
+		
+		
+		<result property="imgSeq"  column="img_seq" />
+		<result property="imgUrl"  column="img_url" />
+		<result property="fileName"  column="file_name" />
+		<result property="regDt"  column="reg_dt" />
+		<result property="delYn"  column="del_yn" />
+		
+		<result property="buyQty"  column="buy_qty" />
+		<result property="userId"  column="user_id" />
+	
+	</resultMap>
+	
+	
+	<select id="selectGoodsDetail" resultMap="GoodsInfoMap">
+			SELECT
+				GOODS_CD,
+                GOODS_NAME,
+				NORMAL_PRICE,
+				SELL_PRICE,
+				CONTENT
+			FROM 
+				TB_GOODS_INFO 
+			WHERE 
+				GOODS_CD = #{goodsCd}
+			
+	</select>
+	
+	<select id ="selectImgList" resultMap="GoodsInfoMap">
+			SELECT 
+				GOODS_CD,
+				IMG_SEQ,
+				IMG_URL,
+				FILE_NAME,
+				REG_DT,
+				DEL_YN
+			FROM 
+				TB_GOODS_IMG
+			WHERE
+				GOODS_CD =#{goodsCd}
+	</select>
+	
+	<insert id="insertCartList">
+		INSERT INTO TB_CART_INFO(
+			USER_ID,
+			GOODS_CD,
+			BUY_QTY,
+			REG_DT)
+		VALUES(
+			#{userId},
+			#{goodsCd},
+			#{buyQty},
+			SYSDATE)
+	</insert>	
+	
+	<select id ="selectCartCount" resultType="integer">
+		SELECT 
+		    	COUNT(*) 
+			FROM 
+			 	TB_CART_INFO
+			WHERE 
+				USER_ID = #{userId}
+			AND 
+			 	GOODS_CD = #{goodsCd}
+	</select>
+	
+	
+	</mapper>

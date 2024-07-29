@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.order.dao.OrderDao">
+<resultMap type="com.mall.table.vo.OrderInfoVO" id="OrderInfoMap">
+		<result property="userId" column="user_id" />
+		<result property="goodsCd" column="goods_cd" />
+		<result property="buyQty"  column="buy_qty" />
+		<result property="sellPrice"  column="sell_price" />
+		<result property="thumnailUrl"  column="thumnail_url" />
+		<result property="goodsName"  column="goods_name" />
+		<result property="userName"  column="user_name" />
+		<result property="phone"  column="phone" />
+		<result property="addr"  column="addr" />
+		
+		<result property="userName"  column="user_name" />
+	</resultMap>
+<select id="selectOrderList" resultMap="OrderInfoMap">
+		SELECT
+			B.USER_NAME,
+			B.PHONE,
+			B.ADDR
+		FROM
+			TB_CART_INFO A, TB_USER_INFO B
+		WHERE
+			A.USER_ID = B.USER_ID
+		AND
+			B.USER_ID = #{userId}
+				
+</select>
+	
+	
+</mapper>
